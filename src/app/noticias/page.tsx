@@ -1,56 +1,83 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { ChevronLeft, Search } from 'lucide-react';
 import Hero from '@/components/Hero';
 import CardNoticia from '@/components/CardNoticia';
-import { client, queries, urlFor, Noticia } from '@/lib/sanity';
 
-// Dados locais de fallback (enquanto não tem notícias no Sanity)
-const noticiasLocais = Array(15).fill(null).map((_, i) => ({
-  id: i + 1,
-  titulo: 'Copinha 2026',
-  descricao: 'Tudo o que você precisa saber',
-  imagem: 'https://images.unsplash.com/photo-1606925797300-0b35e9d1794e?w=300&h=200&fit=crop'
-}));
+// Dados mockados (depois será integrado com Sanity)
+const noticiasMock = [
+  {
+    id: 1,
+    slug: 'copinha-2026-tudo-sobre',
+    titulo: 'Copinha 2026',
+    descricao: 'Tudo o que você precisa saber sobre a Copa São Paulo de Futebol Júnior',
+    imagem: 'https://images.unsplash.com/photo-1606925797300-0b35e9d1794e?w=300&h=200&fit=crop',
+    dataPublicacao: '2026-01-20',
+  },
+  {
+    id: 2,
+    slug: 'brasileirao-previsoes',
+    titulo: 'Brasileirão 2026',
+    descricao: 'As principais previsões para o campeonato brasileiro',
+    imagem: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=300&h=200&fit=crop',
+    dataPublicacao: '2026-01-19',
+  },
+  {
+    id: 3,
+    slug: 'selecao-brasileira-novidades',
+    titulo: 'Seleção Brasileira',
+    descricao: 'Novidades sobre a seleção canarinho para 2026',
+    imagem: 'https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=300&h=200&fit=crop',
+    dataPublicacao: '2026-01-18',
+  },
+  {
+    id: 4,
+    slug: 'libertadores-2026',
+    titulo: 'Libertadores 2026',
+    descricao: 'Confira os grupos e as novidades da Libertadores',
+    imagem: 'https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=300&h=200&fit=crop',
+    dataPublicacao: '2026-01-17',
+  },
+  {
+    id: 5,
+    slug: 'copa-do-mundo-preparativos',
+    titulo: 'Copa do Mundo 2026',
+    descricao: 'Os preparativos para a Copa do Mundo nos EUA, Canadá e México',
+    imagem: 'https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=300&h=200&fit=crop',
+    dataPublicacao: '2026-01-16',
+  },
+  {
+    id: 6,
+    slug: 'estaduais-2026',
+    titulo: 'Campeonatos Estaduais',
+    descricao: 'Tudo sobre os estaduais que começam em breve',
+    imagem: 'https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=300&h=200&fit=crop',
+    dataPublicacao: '2026-01-15',
+  },
+  {
+    id: 7,
+    slug: 'mercado-da-bola',
+    titulo: 'Mercado da Bola',
+    descricao: 'As principais contratações e vendas do futebol brasileiro',
+    imagem: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=300&h=200&fit=crop',
+    dataPublicacao: '2026-01-14',
+  },
+  {
+    id: 8,
+    slug: 'futebol-feminino-destaque',
+    titulo: 'Futebol Feminino',
+    descricao: 'O crescimento do futebol feminino no Brasil',
+    imagem: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=300&h=200&fit=crop',
+    dataPublicacao: '2026-01-13',
+  },
+];
 
 export default function Noticias() {
   const [busca, setBusca] = useState('');
   const [filtro, setFiltro] = useState('recentes');
-  const [noticias, setNoticias] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchNoticias() {
-      try {
-        const data = await client.fetch(queries.todasNoticias);
-        
-        if (data && data.length > 0) {
-          // Se tem dados do Sanity, usa eles
-          const noticiasFormatadas = data.map((noticia: Noticia) => ({
-            id: noticia._id,
-            slug: noticia.slug?.current,
-            titulo: noticia.titulo,
-            descricao: noticia.descricao,
-            imagem: noticia.imagem ? urlFor(noticia.imagem).width(300).height(200).url() : 'https://images.unsplash.com/photo-1606925797300-0b35e9d1794e?w=300&h=200&fit=crop',
-            dataPublicacao: noticia.dataPublicacao,
-          }));
-          setNoticias(noticiasFormatadas);
-        } else {
-          // Se não tem dados do Sanity, usa dados locais
-          setNoticias(noticiasLocais);
-        }
-      } catch (error) {
-        console.log('Usando dados locais (Sanity não configurado)');
-        setNoticias(noticiasLocais);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchNoticias();
-  }, []);
+  const noticias = noticiasMock;
 
   // Função para ordenar notícias
   const noticiasOrdenadas = [...noticias].sort((a, b) => {
@@ -104,26 +131,20 @@ export default function Noticias() {
 
         <h3 className="text-2xl font-bold mb-6">Últimas notícias</h3>
 
-        {loading ? (
-          <div className="flex justify-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-600"></div>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            {noticiasFiltradas.map((noticia) => (
-              <CardNoticia 
-                key={noticia.id} 
-                id={noticia.id}
-                slug={noticia.slug}
-                titulo={noticia.titulo}
-                descricao={noticia.descricao}
-                imagem={noticia.imagem}
-              />
-            ))}
-          </div>
-        )}
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          {noticiasFiltradas.map((noticia) => (
+            <CardNoticia 
+              key={noticia.id} 
+              id={noticia.id}
+              slug={noticia.slug}
+              titulo={noticia.titulo}
+              descricao={noticia.descricao}
+              imagem={noticia.imagem}
+            />
+          ))}
+        </div>
 
-        {!loading && noticiasFiltradas.length === 0 && (
+        {noticiasFiltradas.length === 0 && (
           <p className="text-center text-gray-600 py-12">
             Nenhuma notícia encontrada para "{busca}"
           </p>

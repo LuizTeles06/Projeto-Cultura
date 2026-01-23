@@ -1,41 +1,110 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
 import { useParams } from 'next/navigation';
-import { client, queries, urlFor, Noticia } from '@/lib/sanity';
+
+// Dados mockados (mesmos da página de notícias)
+const noticiasMock = [
+  {
+    id: 1,
+    slug: 'copinha-2026-tudo-sobre',
+    titulo: 'Copinha 2026',
+    descricao: 'Tudo o que você precisa saber sobre a Copa São Paulo de Futebol Júnior',
+    conteudo: 'A Copa São Paulo de Futebol Júnior de 2026 promete ser uma das edições mais emocionantes da história. Com a participação de clubes de todo o Brasil, a competição revela novos talentos que podem brilhar no futebol profissional. Acompanhe nossa cobertura completa com análises, resultados e destaques de cada rodada.',
+    imagem: 'https://images.unsplash.com/photo-1606925797300-0b35e9d1794e?w=1200&h=400&fit=crop',
+    dataPublicacao: '2026-01-20',
+    autor: 'Redação Cultura Esportiva',
+  },
+  {
+    id: 2,
+    slug: 'brasileirao-previsoes',
+    titulo: 'Brasileirão 2026',
+    descricao: 'As principais previsões para o campeonato brasileiro',
+    conteudo: 'O Campeonato Brasileiro de 2026 está prestes a começar e já movimenta o mercado da bola. Clubes tradicionais como Flamengo, Palmeiras, Corinthians e São Paulo se reforçam para a disputa do título. Confira nossa análise completa sobre os favoritos e as surpresas que podem aparecer nesta temporada.',
+    imagem: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1200&h=400&fit=crop',
+    dataPublicacao: '2026-01-19',
+    autor: 'Redação Cultura Esportiva',
+  },
+  {
+    id: 3,
+    slug: 'selecao-brasileira-novidades',
+    titulo: 'Seleção Brasileira',
+    descricao: 'Novidades sobre a seleção canarinho para 2026',
+    conteudo: 'A Seleção Brasileira se prepara intensamente para a Copa do Mundo de 2026. Com uma nova geração de talentos e jogadores experientes, a equipe busca reconquistar o título mundial. Confira as últimas novidades sobre convocações, amistosos e a preparação da equipe.',
+    imagem: 'https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=1200&h=400&fit=crop',
+    dataPublicacao: '2026-01-18',
+    autor: 'Redação Cultura Esportiva',
+  },
+  {
+    id: 4,
+    slug: 'libertadores-2026',
+    titulo: 'Libertadores 2026',
+    descricao: 'Confira os grupos e as novidades da Libertadores',
+    conteudo: 'A Copa Libertadores da América 2026 promete grandes confrontos entre os melhores clubes do continente. Com brasileiros bem representados, a busca pela glória eterna continua. Veja os grupos, calendário e análises dos times favoritos ao título.',
+    imagem: 'https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=1200&h=400&fit=crop',
+    dataPublicacao: '2026-01-17',
+    autor: 'Redação Cultura Esportiva',
+  },
+  {
+    id: 5,
+    slug: 'copa-do-mundo-preparativos',
+    titulo: 'Copa do Mundo 2026',
+    descricao: 'Os preparativos para a Copa do Mundo nos EUA, Canadá e México',
+    conteudo: 'A Copa do Mundo de 2026 será histórica: pela primeira vez, três países sediarão o evento. Estados Unidos, Canadá e México se preparam para receber as 48 seleções que disputarão o título. Confira os estádios, cidades-sede e toda a logística do maior evento do futebol mundial.',
+    imagem: 'https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=1200&h=400&fit=crop',
+    dataPublicacao: '2026-01-16',
+    autor: 'Redação Cultura Esportiva',
+  },
+  {
+    id: 6,
+    slug: 'estaduais-2026',
+    titulo: 'Campeonatos Estaduais',
+    descricao: 'Tudo sobre os estaduais que começam em breve',
+    conteudo: 'Os campeonatos estaduais de 2026 estão prestes a começar em todo o Brasil. Paulistão, Carioca, Mineiro e Gaúcho prometem grandes clássicos e revelações. Acompanhe nossa cobertura completa com tabelas, resultados e análises.',
+    imagem: 'https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=1200&h=400&fit=crop',
+    dataPublicacao: '2026-01-15',
+    autor: 'Redação Cultura Esportiva',
+  },
+  {
+    id: 7,
+    slug: 'mercado-da-bola',
+    titulo: 'Mercado da Bola',
+    descricao: 'As principais contratações e vendas do futebol brasileiro',
+    conteudo: 'O mercado da bola está aquecido no início de 2026. Grandes clubes brasileiros investem pesado em reforços enquanto outros negociam suas principais estrelas com o exterior. Fique por dentro de todas as transferências confirmadas e rumores.',
+    imagem: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=1200&h=400&fit=crop',
+    dataPublicacao: '2026-01-14',
+    autor: 'Redação Cultura Esportiva',
+  },
+  {
+    id: 8,
+    slug: 'futebol-feminino-destaque',
+    titulo: 'Futebol Feminino',
+    descricao: 'O crescimento do futebol feminino no Brasil',
+    conteudo: 'O futebol feminino brasileiro vive um momento de grande crescimento. Com mais investimentos, visibilidade e estrutura, as atletas conquistam cada vez mais espaço e reconhecimento. Conheça as principais competições, clubes e jogadoras que estão fazendo história.',
+    imagem: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=1200&h=400&fit=crop',
+    dataPublicacao: '2026-01-13',
+    autor: 'Redação Cultura Esportiva',
+  },
+];
+
+interface Noticia {
+  id: number;
+  slug: string;
+  titulo: string;
+  descricao: string;
+  conteudo: string;
+  imagem: string;
+  dataPublicacao: string;
+  autor: string;
+}
 
 export default function NoticiaPage() {
   const params = useParams();
   const slug = params.slug as string;
-  const [noticia, setNoticia] = useState<Noticia | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchNoticia() {
-      try {
-        const data = await client.fetch(queries.noticiaPorSlug, { slug });
-        setNoticia(data);
-      } catch (error) {
-        console.error('Erro ao buscar notícia:', error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    if (slug) {
-      fetchNoticia();
-    }
-  }, [slug]);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center mt-16">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-600"></div>
-      </div>
-    );
-  }
+  
+  const noticia = noticiasMock.find((n) => n.slug === slug) as Noticia | undefined;
 
   if (!noticia) {
     return (
@@ -57,7 +126,7 @@ export default function NoticiaPage() {
       {noticia.imagem && (
         <div className="relative h-[300px] lg:h-[400px]">
           <img
-            src={urlFor(noticia.imagem).width(1200).height(400).url()}
+            src={noticia.imagem}
             alt={noticia.titulo}
             className="w-full h-full object-cover"
           />
@@ -103,16 +172,9 @@ export default function NoticiaPage() {
           {/* Conteúdo da notícia */}
           {noticia.conteudo && (
             <div className="prose prose-lg max-w-none text-gray-800">
-              {noticia.conteudo.map((block: any, index: number) => {
-                if (block._type === 'block') {
-                  return (
-                    <p key={index} className="mb-4 leading-relaxed">
-                      {block.children?.map((child: any) => child.text).join('')}
-                    </p>
-                  );
-                }
-                return null;
-              })}
+              <p className="mb-4 leading-relaxed">
+                {noticia.conteudo}
+              </p>
             </div>
           )}
         </article>
