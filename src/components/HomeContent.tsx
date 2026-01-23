@@ -1,0 +1,63 @@
+'use client';
+
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { ChevronRight } from 'lucide-react';
+import CardNoticia from '@/components/CardNoticia';
+import { urlFor } from '@/sanity/lib/image';
+
+interface HomeContentProps {
+  posts: any[]; // Recebe os posts vindos do Sanity
+}
+
+export default function HomeContent({ posts }: HomeContentProps) {
+  const [indiceAtual, setIndiceAtual] = useState(0);
+  const itensPorPagina = 5;
+
+  // Normalizar os dados do Sanity para o formato do Card
+  const noticiasFormatadas = posts.map(post => ({
+    id: post._id,
+    slug: post.slug,
+    titulo: post.title,
+    descricao: post.descricao || '', // Mapeado do campo 'Linha' na query
+    imagem: post.mainImage ? urlFor(post.mainImage).url() : '/placeholder.jpg'
+  }));
+
+  const noticiasVisiveis = noticiasFormatadas.slice(
+    indiceAtual * itensPorPagina,
+    (indiceAtual + 1) * itensPorPagina
+  );
+
+  return (
+    <div className="px-6 lg:px-12 mb-24 pb-8">
+      <div className="flex justify-between items-center mb-6">
+        <h3 className="text-2xl font-bold">Últimas notícias</h3>
+        <Link href="/noticias">
+          <button className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition flex items-center gap-2">
+            VER TODAS AS NOTÍCIAS
+            <ChevronRight size={20} />
+          </button>
+        </Link>
+      </div>
+
+      <div className="relative">
+        {noticiasVisiveis.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {noticiasVisiveis.map((noticia) => (
+              <CardNoticia 
+                key={noticia.id} 
+                id={noticia.id} // Passando ID como string se seu card aceitar, ou use Number() se for estrito
+                slug={noticia.slug}
+                titulo={noticia.titulo}
+                descricao={noticia.descricao}
+                imagem={noticia.imagem}
+              />
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-500">Nenhuma notícia encontrada.</p>
+        )}
+      </div>
+    </div>
+  );
+}
