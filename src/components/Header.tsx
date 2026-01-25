@@ -8,6 +8,9 @@ export default function Header() {
   const [menuAberto, setMenuAberto] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
+  const abrirMenu = () => setMenuAberto(true);
+  const fecharMenu = () => setMenuAberto(false);
+
   // Fecha o menu ao clicar fora dele
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -23,7 +26,12 @@ export default function Header() {
   return (
     <header className="bg-black text-white py-4 px-6 flex justify-between items-center fixed w-full top-0 z-50">
       {/* Menu dropdown no canto esquerdo */}
-      <div className="relative" ref={menuRef}>
+      <div 
+        className="relative" 
+        ref={menuRef}
+        onMouseEnter={abrirMenu}
+        onMouseLeave={fecharMenu}
+      >
         <button 
           onClick={() => setMenuAberto(!menuAberto)}
           className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
@@ -34,7 +42,7 @@ export default function Header() {
 
         {/* Dropdown menu */}
         {menuAberto && (
-          <div className="absolute left-0 top-full mt-2 w-48 bg-gray-900 rounded-lg shadow-lg border border-gray-700 overflow-hidden animate-fadeIn">
+          <div className="absolute left-0 top-full w-48 bg-gray-900 rounded-lg shadow-lg border border-gray-700 overflow-hidden animate-fadeIn">
             <nav className="flex flex-col text-white">
               <Link 
                 href="/" 

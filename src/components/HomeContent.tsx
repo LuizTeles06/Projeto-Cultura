@@ -33,9 +33,9 @@ export default function HomeContent({ posts }: HomeContentProps) {
       <div className="flex justify-between items-center mb-6">
         <h3 className="text-2xl font-bold">Últimas notícias</h3>
         <Link href="/noticias">
-          <button className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition flex items-center gap-2">
-            VER TODAS AS NOTÍCIAS
-            <ChevronRight size={20} />
+          <button className="group flex items-center gap-2 px-6 py-2 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 hover:shadow-lg transition-all duration-300 mt-8">
+            <span>VER TODAS NOTÍCIAS</span>
+            <ChevronRight size={20} className="group-hover:-translate-x-1 transition-transform" />
           </button>
         </Link>
       </div>

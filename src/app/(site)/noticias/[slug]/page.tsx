@@ -67,7 +67,7 @@ export default async function NoticiaPage({ params }: { params: Promise<{ slug: 
       <div className="min-h-screen flex flex-col items-center justify-center mt-16">
         <h1 className="text-2xl font-bold text-gray-900 mb-4">Notícia não encontrada</h1>
         <Link href="/noticias">
-          <button className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition flex items-center gap-2">
+          <button className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 hover:shadow-lg transition-all duration-300 flex items-center gap-2 mt-12">
             <ChevronLeft size={20} />
             Voltar para Notícias
           </button>
@@ -94,7 +94,7 @@ return (
         
         <div className="mb-8">
             <Link href="/noticias" className="inline-block">
-                <button className="group flex items-center gap-2 px-6 py-2 border-2 border-green-600 text-green-700 font-bold rounded-lg transition-all duration-300 hover:bg-green-600 hover:text-white">
+                <button className="group flex items-center gap-2 px-6 py-2 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 hover:shadow-lg transition-all duration-300 mt-8">
                 <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
                 <span>Voltar para notícias</span>
                 </button>
@@ -159,7 +159,7 @@ return (
 
           {/* LINK EXTERNO */}
           {post.link && (
-            <div className="max-w-4xl mx-auto mb-10">
+            <div className="max-w-4xl mx-auto mb-16">
               <a 
                 href={post.link} 
                 target="_blank" 
@@ -170,7 +170,7 @@ return (
                   <span className="text-2xl">🔗</span>
                   <div>
                     <p className="text-sm text-blue-600 font-bold uppercase">Referência Externa</p>
-                    <p className="text-blue-900 font-medium group-hover:underline">Confira a notícias em nossas Redes Sociais</p>
+                    <p className="text-blue-900 font-medium group-hover:underline">Confira a notícia em nossas Redes Sociais</p>
                   </div>
                 </div>
                 <ChevronLeft className="rotate-180 text-blue-400 group-hover:translate-x-1 transition-transform" />
@@ -181,7 +181,7 @@ return (
           {/* CONTEÚDO DO TEXTO */}
           {/* 5. Centralizamos o texto em max-w-4xl para facilitar a leitura, 
                  mesmo que a imagem possa ser mais larga */}
-          <div className="prose prose-lg md:prose-xl max-w-4xl mx-auto text-gray-800 prose-headings:text-gray-900 prose-a:text-green-600 hover:prose-a:text-green-700 prose-img:rounded-xl">
+          <div className="prose prose-lg md:prose-xl max-w-4xl mx-auto text-gray-800 prose-headings:text-gray-900 prose-a:text-green-600 hover:prose-a:text-green-700 prose-img:rounded-xl mt-8 mb-16">
             <PortableText 
               value={post.content} 
               components={{

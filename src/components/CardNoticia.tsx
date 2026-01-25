@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 
 interface CardNoticiaProps {
-  id?: number;
+  id?: number | string;
   slug?: string;
   titulo: string;
   descricao: string;

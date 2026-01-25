@@ -1,12 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; // <--- Adicionado useEffect
 import Link from 'next/link';
-import { ChevronLeft, Search } from 'lucide-react';
+import { ChevronLeft, Search, Lock } from 'lucide-react'; // <--- Adicionado ícone Lock
 import CardNoticia from '@/components/CardNoticia';
 import { urlFor } from '@/sanity/lib/image';
 
-// 1. Definimos uma interface para garantir que todos tenham o mesmo formato
 interface NoticiaItem {
   id: string | number;
   slug: string;
@@ -16,10 +15,9 @@ interface NoticiaItem {
   dataPublicacao: string;
 }
 
-// 2. Mock corrigido usando 'id' (e não _id)
 const noticiasMock: NoticiaItem[] = [
   {
-    id: 'mock-1', // Agora usa 'id' explicitamente
+    id: 'mock-1',
     slug: 'copinha-2026-tudo-sobre',
     titulo: 'Copinha 2026 (Exemplo Mock)',
     descricao: 'Tudo o que você precisa saber sobre a Copa São Paulo de Futebol Júnior',
@@ -44,9 +42,8 @@ export default function NewsContent({ sanityPosts }: NoticiasContentProps) {
   const [busca, setBusca] = useState('');
   const [filtro, setFiltro] = useState('recentes');
 
-  // 3. Normalizamos o Sanity transformando _id em id
   const postsFormatados: NoticiaItem[] = sanityPosts.map((post) => ({
-    id: post._id, // AQUI está a correção mágica: mapeamos _id do banco para id do componente
+    id: post._id,
     slug: post.slug,
     titulo: post.title,
     descricao: post.Linha,
@@ -54,10 +51,8 @@ export default function NewsContent({ sanityPosts }: NoticiasContentProps) {
     dataPublicacao: post._createdAt,
   }));
 
-  // Agora as duas listas têm exatamente o mesmo tipo (NoticiaItem)
   const todasNoticias = [...postsFormatados, ...noticiasMock];
 
-  // Ordenação
   const noticiasOrdenadas = [...todasNoticias].sort((a, b) => {
     if (filtro === 'recentes' && a.dataPublicacao && b.dataPublicacao) {
       return new Date(b.dataPublicacao).getTime() - new Date(a.dataPublicacao).getTime();
@@ -68,7 +63,6 @@ export default function NewsContent({ sanityPosts }: NoticiasContentProps) {
     return 0;
   });
 
-  // Filtro de Busca
   const noticiasFiltradas = noticiasOrdenadas.filter((noticia) => {
     const termo = busca.toLowerCase();
     const titulo = noticia.titulo?.toLowerCase() || '';
@@ -79,13 +73,16 @@ export default function NewsContent({ sanityPosts }: NoticiasContentProps) {
   return (
     <div className="px-6 lg:px-12 py-8">
       <Link href="/">
-        <button className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition flex items-center gap-2 mb-8">
-          <ChevronLeft size={20} />
-          Voltar
+        <button className="group flex items-center gap-2 px-6 py-2 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 hover:shadow-lg transition-all duration-300 mt-8">
+          <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
+          <span>Voltar</span>
         </button>
       </Link>
 
+      {/* Container de Busca e Filtros */}
       <div className="flex flex-col md:flex-row gap-4 mb-8 max-w-4xl mx-auto">
+        
+        {/* Input de Busca */}
         <div className="flex-1 relative">
           <input
             type="text"
@@ -96,6 +93,8 @@ export default function NewsContent({ sanityPosts }: NoticiasContentProps) {
           />
           <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
         </div>
+
+        {/* Select de Filtro */}
         <select 
           value={filtro}
           onChange={(e) => setFiltro(e.target.value)}
@@ -112,11 +111,13 @@ export default function NewsContent({ sanityPosts }: NoticiasContentProps) {
         {noticiasFiltradas.map((noticia) => (
           <CardNoticia 
             key={noticia.id} 
-            id={Number(noticia.id)} // Se seu CardNoticia exige number, use Number(). Se aceita string, remova o Number().
+            // CUIDADO: Se os IDs do Sanity forem strings (ex: 'drafts.123'),
+            // remover o Number() pode ser necessário para evitar NaN.
+            id={Number(noticia.id) || noticia.id} 
             slug={noticia.slug}
             titulo={noticia.titulo}
             descricao={noticia.descricao}
-            imagem={noticia.imagem || 'https://via.placeholder.com/300x200'} // Imagem fallback garantida
+            imagem={noticia.imagem || 'https://via.placeholder.com/300x200'}
           />
         ))}
       </div>
