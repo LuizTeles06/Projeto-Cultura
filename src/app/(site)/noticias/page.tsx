@@ -12,7 +12,8 @@ async function getPosts() {
     _id,
     title,
     "slug": slug.current,
-    "Linha": Linha, 
+    "Linha": Linha,
+    categoria,
     mainImage,
     _createdAt
   }`;

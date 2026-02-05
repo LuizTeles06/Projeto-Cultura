@@ -20,6 +20,7 @@ export default function HomeContent({ posts }: HomeContentProps) {
     slug: post.slug,
     titulo: post.title,
     descricao: post.descricao || '', // Mapeado do campo 'Linha' na query
+    categoria: post.categoria,
     imagem: post.mainImage ? urlFor(post.mainImage).url() : '/placeholder.jpg'
   }));
 
@@ -46,10 +47,11 @@ export default function HomeContent({ posts }: HomeContentProps) {
             {noticiasVisiveis.map((noticia) => (
               <CardNoticia 
                 key={noticia.id} 
-                id={noticia.id} // Passando ID como string se seu card aceitar, ou use Number() se for estrito
+                id={noticia.id} 
                 slug={noticia.slug}
                 titulo={noticia.titulo}
                 descricao={noticia.descricao}
+                categoria={noticia.categoria}
                 imagem={noticia.imagem}
               />
             ))}

@@ -10,6 +10,7 @@ async function getLatestPosts() {
     title,
     "slug": slug.current,
     "descricao": Linha,
+    categoria,
     mainImage
   }`;
 

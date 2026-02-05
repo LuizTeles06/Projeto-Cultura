@@ -17,6 +17,22 @@ export const post = defineType({
       description: 'Subtítulo ou resumo curto abaixo do título'
     }),
     defineField({
+      name: 'categoria',
+      title: 'Categoria do Esporte',
+      type: 'string', 
+      options: {
+        list: [
+          { title: '⚽ Futebol', value: 'futebol' },
+          { title: '🏐 Vôlei', value: 'volei' },
+          { title: '🏀 Basquete', value: 'basquete' },
+          { title: '⚽ Futsal', value: 'futsal' },
+          { title: '🏅 Outros Esportes', value: 'outros' },
+        ],
+        layout: 'dropdown' 
+      },
+      validation: rule => rule.required() 
+    }),
+    defineField({
       name: 'slug',
       title: 'Slug (URL)',
       type: 'slug',
