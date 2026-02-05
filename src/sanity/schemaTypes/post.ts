@@ -26,6 +26,7 @@ export const post = defineType({
           { title: '🏐 Vôlei', value: 'volei' },
           { title: '🏀 Basquete', value: 'basquete' },
           { title: '⚽ Futsal', value: 'futsal' },
+          { title: '🤾 Handebol', value: 'handebol' },
           { title: '🏅 Outros Esportes', value: 'outros' },
         ],
         layout: 'dropdown' 

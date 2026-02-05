@@ -15,6 +15,7 @@ const categoriaConfig: Record<string, { label: string; color: string }> = {
   volei: { label: '🏐 Vôlei', color: 'bg-yellow-100 text-yellow-700' },
   basquete: { label: '🏀 Basquete', color: 'bg-orange-100 text-orange-700' },
   futsal: { label: '⚽ Futsal', color: 'bg-purple-100 text-purple-700' },
+  handebol: { label: '🤾 Handebol', color: 'bg-red-100 text-red-700' },
   outros: { label: '🏅 Outros Esportes', color: 'bg-gray-100 text-gray-700' },
 };
 
