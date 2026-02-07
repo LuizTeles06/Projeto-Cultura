@@ -7,6 +7,7 @@ interface CardNoticiaProps {
   titulo: string;
   descricao: string;
   imagem: string;
+  coverImage?: string;
   categoria?: string;
 }
 
@@ -19,14 +20,15 @@ const categoriaConfig: Record<string, { label: string; color: string }> = {
   outros: { label: '🏅 Outros Esportes', color: 'bg-gray-100 text-gray-700' },
 };
 
-export default function CardNoticia({ id, slug, titulo, descricao, imagem, categoria }: CardNoticiaProps) {
+export default function CardNoticia({ id, slug, titulo, descricao, imagem, coverImage, categoria }: CardNoticiaProps) {
   const href = slug ? `/noticias/${slug}` : `/noticias/${id}`;
+  const imagemExibida = coverImage || imagem;
   const categoriaInfo = categoria && categoriaConfig[categoria];
   
   return (
     <Link href={href}>
       <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer h-full border-2 border-transparent hover:border-green-500">
-        <img src={imagem} alt={titulo} className="w-full h-48 object-cover" />
+        <img src={imagemExibida} alt={titulo} className="w-full h-48 object-cover" />
         <div className="p-4">
           <h4 className="font-bold mb-2 text-gray-900">{titulo}</h4>
           <p className="text-sm text-gray-700 mb-3">{descricao}</p>

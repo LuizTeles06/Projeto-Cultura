@@ -15,6 +15,7 @@ async function getPosts() {
     "Linha": Linha,
     categoria,
     mainImage,
+    coverImage,
     _createdAt
   }`;
 

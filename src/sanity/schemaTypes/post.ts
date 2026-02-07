@@ -1,20 +1,29 @@
 import { defineField, defineType } from 'sanity'
+import { DocumentTextIcon } from '@sanity/icons' 
 
 export const post = defineType({
   name: 'post',
-  title: 'Postagem', 
+  title: 'Postagens', 
   type: 'document',
+  icon: DocumentTextIcon, 
   fields: [
     defineField({
       name: 'title',
       title: 'Título', 
       type: 'string',
+      validation: rule => rule.required()
     }),
     defineField({
       name: 'Linha',
       title: 'Linha-Fina',
       type: 'string',
       description: 'Subtítulo ou resumo curto abaixo do título'
+    }),
+    defineField({
+      name: 'coverImage', 
+      title: 'Foto de Capa (Principal)',
+      type: 'image',
+      options: { hotspot: true },
     }),
     defineField({
       name: 'categoria',
@@ -38,6 +47,7 @@ export const post = defineType({
       title: 'Slug (URL)',
       type: 'slug',
       options: { source: 'title' },
+      validation: rule => rule.required()
     }),
     defineField({
       name: 'content',
@@ -47,25 +57,30 @@ export const post = defineType({
     }),
     defineField({
       name: 'mainImage',
-      title: 'Imagem de Capa',
+      title: 'Imagem Secundária (Conteúdo)',
       type: 'image',
-      options: {
-        hotspot: true, 
-      },
-      fields: [
-        {
-          name: 'alt',
-          type: 'string',
-          title: 'Texto Alternativo', 
-          description: 'Descreva a imagem para leitores de tela e SEO'
-        }
-      ]
+      options: { hotspot: true },
     }),
     defineField({
       name: 'link',
       title: 'Link Externo',
       type: 'url', 
-      description: 'Link opcional para referência externa'
     }),
   ],
+
+  preview: {
+    select: {
+      title: 'title',
+      subtitle: 'Linha',      
+      media: 'coverImage',    
+    },
+    prepare(selection) {
+      const { title, subtitle, media } = selection
+      return {
+        title: title,
+        subtitle: subtitle || 'Sem descrição',
+        media: media,
+      }
+    },
+  },
 })

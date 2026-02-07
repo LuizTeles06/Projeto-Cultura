@@ -21,7 +21,8 @@ export default function HomeContent({ posts }: HomeContentProps) {
     titulo: post.title,
     descricao: post.descricao || '', // Mapeado do campo 'Linha' na query
     categoria: post.categoria,
-    imagem: post.mainImage ? urlFor(post.mainImage).url() : '/placeholder.jpg'
+    imagem: post.mainImage ? urlFor(post.mainImage).url() : '/placeholder.jpg',
+    coverImage: post.coverImage ? urlFor(post.coverImage).url() : undefined
   }));
 
   const noticiasVisiveis = noticiasFormatadas.slice(
@@ -53,6 +54,7 @@ export default function HomeContent({ posts }: HomeContentProps) {
                 descricao={noticia.descricao}
                 categoria={noticia.categoria}
                 imagem={noticia.imagem}
+                coverImage={noticia.coverImage}
               />
             ))}
           </div>

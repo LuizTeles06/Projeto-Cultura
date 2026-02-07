@@ -12,6 +12,7 @@ interface NoticiaItem {
   titulo: string;
   descricao: string;
   imagem: string | null;
+  coverImage?: string | null;
   categoria?: string;
   dataPublicacao: string;
 }
@@ -50,6 +51,7 @@ export default function NewsContent({ sanityPosts }: NoticiasContentProps) {
     descricao: post.Linha,
     categoria: post.categoria,
     imagem: post.mainImage ? urlFor(post.mainImage).url() : null,
+    coverImage: post.coverImage ? urlFor(post.coverImage).url() : null,
     dataPublicacao: post._createdAt,
   }));
 
@@ -121,6 +123,7 @@ export default function NewsContent({ sanityPosts }: NoticiasContentProps) {
             descricao={noticia.descricao}
             categoria={noticia.categoria}
             imagem={noticia.imagem || 'https://via.placeholder.com/300x200'}
+            coverImage={noticia.coverImage || undefined}
           />
         ))}
       </div>

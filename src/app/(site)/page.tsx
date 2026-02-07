@@ -11,7 +11,8 @@ async function getLatestPosts() {
     "slug": slug.current,
     "descricao": Linha,
     categoria,
-    mainImage
+    mainImage,
+    coverImage
   }`;
 
   return await client.fetch(query);
