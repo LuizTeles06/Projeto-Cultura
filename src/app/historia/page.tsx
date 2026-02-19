@@ -6,8 +6,8 @@ import Hero from '@/components/Hero';
 const videos = [
   {
     id: 1,
-    titulo: 'Primeira Medalista Olímpica de Votorantim',
-    videoId: 'VctRcTBXfmI',
+    titulo: 'Entrevista com Abner Teixeira - Medalhista Olímpico e Octacampeão Brasileiro!',
+    videoId: 'B-TV4Lk6_Fg',
   },
   {
     id: 2,
@@ -16,8 +16,8 @@ const videos = [
   },
   {
     id: 3,
-    titulo: 'Entrevista - Henrique do Joinville autor de dois gols na Semifinal',
-    videoId: 'thbGT7SOiRc',
+    titulo: 'ENTREVISTA COM O MONA - CAMPEÃO LIBERTADORES DE 1993 COM O SÃO PAULO!',
+    videoId: 'KkHoPC8b8Hg',
   },
 ];
 
