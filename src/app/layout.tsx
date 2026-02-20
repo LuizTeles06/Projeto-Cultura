@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Cultura Esportiva - A Voz do Esporte Sorocabano",
+  title: "Cultura Esportiva - Descubra a alma esportiva de Sorocaba!",
   description: "Blog de notícias esportivas de Sorocaba",
 };
 
