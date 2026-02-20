@@ -25,6 +25,8 @@ async function getSanityPost(slug: string) {
   return client.fetch(query, { slug });
 }
 
+export const revalidate = 60;
+
 // --- SEO DINÂMICO ---
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
