@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react'; // <--- Adicionado useEffect
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { ChevronLeft, Search, Lock } from 'lucide-react'; // <--- Adicionado ícone Lock
+import { ChevronLeft, Search } from 'lucide-react';
 import CardNoticia from '@/components/CardNoticia';
 import { urlFor } from '@/sanity/lib/image';
 
@@ -17,23 +17,14 @@ interface NoticiaItem {
   dataPublicacao: string;
 }
 
-const noticiasMock: NoticiaItem[] = [
-  {
-    id: 'mock-1',
-    slug: 'copinha-2026-tudo-sobre',
-    titulo: 'Copinha 2026 (Exemplo Mock)',
-    descricao: 'Tudo o que você precisa saber sobre a Copa São Paulo de Futebol Júnior',
-    imagem: 'https://images.unsplash.com/photo-1606925797300-0b35e9d1794e?w=300&h=200&fit=crop',
-    dataPublicacao: '2026-01-20',
-  },
-  {
-    id: 'mock-2',
-    slug: 'brasileirao-previsoes',
-    titulo: 'Brasileirão 2026 (Exemplo Mock)',
-    descricao: 'As principais previsões para o campeonato brasileiro',
-    imagem: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=300&h=200&fit=crop',
-    dataPublicacao: '2026-01-19',
-  },
+const categoriasFiltro = [
+  { value: 'todas', label: '🏆 Todas', color: 'bg-green-600 text-white', colorInactive: 'bg-gray-200 text-gray-700 hover:bg-green-100' },
+  { value: 'futebol', label: '⚽ Futebol', color: 'bg-blue-600 text-white', colorInactive: 'bg-gray-200 text-gray-700 hover:bg-blue-100' },
+  { value: 'volei', label: '🏐 Vôlei', color: 'bg-yellow-500 text-white', colorInactive: 'bg-gray-200 text-gray-700 hover:bg-yellow-100' },
+  { value: 'basquete', label: '🏀 Basquete', color: 'bg-orange-500 text-white', colorInactive: 'bg-gray-200 text-gray-700 hover:bg-orange-100' },
+  { value: 'futsal', label: '⚽ Futsal', color: 'bg-purple-600 text-white', colorInactive: 'bg-gray-200 text-gray-700 hover:bg-purple-100' },
+  { value: 'handebol', label: '🤾 Handebol', color: 'bg-red-600 text-white', colorInactive: 'bg-gray-200 text-gray-700 hover:bg-red-100' },
+  { value: 'outros', label: '🏅 Outros', color: 'bg-gray-600 text-white', colorInactive: 'bg-gray-200 text-gray-700 hover:bg-gray-300' },
 ];
 
 interface NoticiasContentProps {
@@ -43,6 +34,7 @@ interface NoticiasContentProps {
 export default function NewsContent({ sanityPosts }: NoticiasContentProps) {
   const [busca, setBusca] = useState('');
   const [filtro, setFiltro] = useState('recentes');
+  const [categoriaAtiva, setCategoriaAtiva] = useState('todas');
 
   const postsFormatados: NoticiaItem[] = sanityPosts.map((post) => ({
     id: post._id,
@@ -71,7 +63,9 @@ export default function NewsContent({ sanityPosts }: NoticiasContentProps) {
     const termo = busca.toLowerCase();
     const titulo = noticia.titulo?.toLowerCase() || '';
     const desc = noticia.descricao?.toLowerCase() || '';
-    return titulo.includes(termo) || desc.includes(termo);
+    const correspondeTexto = titulo.includes(termo) || desc.includes(termo);
+    const correspondeCategoria = categoriaAtiva === 'todas' || noticia.categoria === categoriaAtiva;
+    return correspondeTexto && correspondeCategoria;
   });
 
   return (
@@ -85,7 +79,7 @@ export default function NewsContent({ sanityPosts }: NoticiasContentProps) {
       </Link>
 
       {/* Container de Busca e Filtros */}
-      <div className="flex flex-col md:flex-row gap-4 mb-8 max-w-4xl mx-auto">
+      <div className="flex flex-col md:flex-row gap-4 mb-4 max-w-4xl mx-auto">
 
         {/* Input de Busca */}
         <div className="flex-1 relative">
@@ -110,7 +104,28 @@ export default function NewsContent({ sanityPosts }: NoticiasContentProps) {
         </select>
       </div>
 
-      <h3 className="text-2xl font-bold mb-6">Últimas notícias</h3>
+      {/* Filtro por Categoria */}
+      <div className="flex flex-wrap gap-2 mb-8 max-w-4xl mx-auto justify-center">
+        {categoriasFiltro.map((cat) => (
+          <button
+            key={cat.value}
+            onClick={() => setCategoriaAtiva(cat.value)}
+            className={`px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 cursor-pointer ${categoriaAtiva === cat.value
+                ? cat.color + ' shadow-md scale-105'
+                : cat.colorInactive
+              }`}
+          >
+            {cat.label}
+          </button>
+        ))}
+      </div>
+
+      <h3 className="text-2xl font-bold mb-6">
+        {categoriaAtiva === 'todas'
+          ? 'Últimas notícias'
+          : `Notícias de ${categoriasFiltro.find(c => c.value === categoriaAtiva)?.label || ''}`
+        }
+      </h3>
 
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
         {noticiasFiltradas.map((noticia) => (

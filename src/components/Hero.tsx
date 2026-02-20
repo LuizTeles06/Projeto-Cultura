@@ -15,7 +15,7 @@ export default function Hero() {
       />
       <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent flex items-center">
         <div className="text-white px-6 lg:px-12 max-w-2xl">
-          <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
+          <h1 className="text-4xl lg:text-6xl font-bold leading-tight animate-heroSlideUp">
             DESCUBRA A ALMA ESPORTIVA DE SOROCABA!
           </h1>
         </div>
