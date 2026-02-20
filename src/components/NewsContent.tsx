@@ -55,7 +55,7 @@ export default function NewsContent({ sanityPosts }: NoticiasContentProps) {
     dataPublicacao: post._createdAt,
   }));
 
-  const todasNoticias = [...postsFormatados, ...noticiasMock];
+  const todasNoticias = postsFormatados;
 
   const noticiasOrdenadas = [...todasNoticias].sort((a, b) => {
     if (filtro === 'recentes' && a.dataPublicacao && b.dataPublicacao) {
@@ -76,16 +76,17 @@ export default function NewsContent({ sanityPosts }: NoticiasContentProps) {
 
   return (
     <div className="px-6 lg:px-12 py-8">
-      <Link href="/">
-        <button className="group flex items-center gap-2 px-6 py-2 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 hover:shadow-lg transition-all duration-300 mt-8">
-          <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
-          <span>Voltar</span>
-        </button>
+      <Link
+        href="/"
+        className="group inline-flex items-center gap-2 px-6 py-2 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 hover:shadow-lg transition-all duration-300 mt-8"
+      >
+        <ChevronLeft size={20} aria-hidden="true" className="group-hover:-translate-x-1 transition-transform" />
+        <span>Voltar</span>
       </Link>
 
       {/* Container de Busca e Filtros */}
       <div className="flex flex-col md:flex-row gap-4 mb-8 max-w-4xl mx-auto">
-        
+
         {/* Input de Busca */}
         <div className="flex-1 relative">
           <input
@@ -99,7 +100,7 @@ export default function NewsContent({ sanityPosts }: NoticiasContentProps) {
         </div>
 
         {/* Select de Filtro */}
-        <select 
+        <select
           value={filtro}
           onChange={(e) => setFiltro(e.target.value)}
           className="px-6 py-3 rounded-lg border-2 border-gray-300 focus:border-green-600 focus:outline-none text-gray-800 bg-white"
@@ -113,16 +114,16 @@ export default function NewsContent({ sanityPosts }: NoticiasContentProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
         {noticiasFiltradas.map((noticia) => (
-          <CardNoticia 
-            key={noticia.id} 
+          <CardNoticia
+            key={noticia.id}
             // CUIDADO: Se os IDs do Sanity forem strings (ex: 'drafts.123'),
             // remover o Number() pode ser necessário para evitar NaN.
-            id={Number(noticia.id) || noticia.id} 
+            id={Number(noticia.id) || noticia.id}
             slug={noticia.slug}
             titulo={noticia.titulo}
             descricao={noticia.descricao}
             categoria={noticia.categoria}
-            imagem={noticia.imagem || 'https://via.placeholder.com/300x200'}
+            imagem={noticia.imagem || '/placeholder.jpg'}
             coverImage={noticia.coverImage || undefined}
           />
         ))}

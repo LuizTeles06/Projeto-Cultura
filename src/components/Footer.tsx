@@ -1,6 +1,7 @@
 import React from 'react';
-import Link from 'next/link'; // Importante para navegação interna
-import { Mail, Instagram, Facebook, Phone, Lock } from 'lucide-react'; // Adicionei o Lock
+import Link from 'next/link';
+import Image from 'next/image';
+import { Mail, Instagram, Facebook, Phone, Lock } from 'lucide-react';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -8,10 +9,10 @@ export default function Footer() {
   return (
     <footer className="bg-black text-white py-8 px-6 lg:px-12 mt-auto">
       <div className="max-w-7xl mx-auto">
-        
+
         {/* Seção Principal (3 Colunas) */}
         <div className="flex flex-col md:flex-row justify-between items-start gap-8 mb-8">
-          
+
           {/* Coluna 1: Integrantes */}
           <div className="text-center md:text-left w-full md:w-auto">
             <h3 className="font-bold text-2xl mb-4 text-green-500">Integrantes</h3>
@@ -26,10 +27,12 @@ export default function Footer() {
           {/* Coluna 2: Logo (Centralizado) */}
           <div className="flex justify-center w-full md:w-auto my-4 md:my-0">
             {/* Se não tiver a logo ainda, use um placeholder ou verifique o caminho */}
-            <img 
-              src="/logo.png" 
-              alt="Cultura Esportiva" 
-              className="h-24 w-auto object-contain hover:scale-105 transition-transform duration-300"
+            <Image
+              src="/logo.png"
+              alt="Cultura Esportiva"
+              width={96}
+              height={96}
+              className="w-auto h-24 object-contain hover:scale-105 transition-transform duration-300"
             />
           </div>
 
@@ -55,14 +58,14 @@ export default function Footer() {
 
         {/* Barra Inferior (Copyright + Área Restrita) */}
         <div className="border-t border-gray-800 pt-6 mt-4 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
-          
+
           <p>
             © {currentYear} Cultura Esportiva • Sorocaba - SP
           </p>
 
           {/* Link para a Redação (Sanity Studio) */}
-          <Link 
-            href="/studio" 
+          <Link
+            href="/studio"
             className="flex items-center gap-2 px-3 py-1 rounded-full hover:bg-gray-900 hover:text-green-500 transition-all duration-300 opacity-60 hover:opacity-100 group"
             title="Acesso restrito para editores"
           >

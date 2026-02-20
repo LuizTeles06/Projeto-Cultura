@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import Hero from '@/components/Hero';
 import HomeContent from '@/components/HomeContent';
 import { client } from '@/sanity/lib/client';
@@ -24,15 +25,17 @@ export default async function Home() {
   return (
     <>
       <Hero />
-      
+
       {/* Seção Sobre a Equipe (Mantida Estática) */}
       <div className="px-6 lg:px-12">
         <div className="bg-white rounded-lg shadow-lg p-6 max-w-4xl mx-auto -mt-20 relative z-10 mb-12">
           <div className="flex flex-col lg:flex-row gap-6 items-center">
             {/* Certifique-se que a imagem existe na pasta public ou troque o src */}
-            <img 
-              src="/equipe.jpg" 
+            <Image
+              src="/equipe.jpg"
               alt="Equipe Cultura Esportiva"
+              width={320}
+              height={240}
               className="rounded-lg w-full lg:w-80 object-cover"
             />
             <div className="flex-1">

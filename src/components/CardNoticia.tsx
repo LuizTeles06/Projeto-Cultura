@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface CardNoticiaProps {
   id?: number | string;
@@ -24,11 +25,19 @@ export default function CardNoticia({ id, slug, titulo, descricao, imagem, cover
   const href = slug ? `/noticias/${slug}` : `/noticias/${id}`;
   const imagemExibida = coverImage || imagem;
   const categoriaInfo = categoria && categoriaConfig[categoria];
-  
+
   return (
     <Link href={href}>
       <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer h-full border-2 border-transparent hover:border-green-500">
-        <img src={imagemExibida} alt={titulo} className="w-full h-48 object-cover" />
+        <div className="relative w-full h-48">
+          <Image
+            src={imagemExibida}
+            alt={titulo}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 20vw"
+            className="object-cover"
+          />
+        </div>
         <div className="p-4">
           <h4 className="font-bold mb-2 text-gray-900">{titulo}</h4>
           <p className="text-sm text-gray-700 mb-3">{descricao}</p>

@@ -43,7 +43,7 @@ async function getSanityPost(slug: string) {
     link,
     _createdAt
   }`;
-  
+
   return client.fetch(query, { slug });
 }
 
@@ -66,11 +66,12 @@ export default async function NoticiaPage({ params }: { params: Promise<{ slug: 
     return (
       <div className="min-h-screen flex flex-col items-center justify-center mt-16">
         <h1 className="text-2xl font-bold text-gray-900 mb-4">Notícia não encontrada</h1>
-        <Link href="/noticias">
-          <button className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 hover:shadow-lg transition-all duration-300 flex items-center gap-2 mt-12">
-            <ChevronLeft size={20} />
-            Voltar para Notícias
-          </button>
+        <Link
+          href="/noticias"
+          className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 hover:shadow-lg transition-all duration-300 flex items-center gap-2 mt-12"
+        >
+          <ChevronLeft size={20} aria-hidden="true" />
+          Voltar para Notícias
         </Link>
       </div>
     );
@@ -78,34 +79,35 @@ export default async function NoticiaPage({ params }: { params: Promise<{ slug: 
 
   // Normalização de dados para renderizar (pois o formato do Sanity e do Mock são diferentes)
   const isSanity = !!sanityPost;
-  
+
   const titulo = isSanity ? post.title : post.title;
   const descricao = isSanity ? post.descricao : post.descricao;
   const data = isSanity ? post._createdAt : post.dataPublicacao;
   const imagemUrl = isSanity && post.mainImage ? urlFor(post.mainImage).url() : post.imagem;
   const autor = isSanity ? "Redação" : post.autor; // Sanity não tem campo autor ainda, usei fixo
 
-return (
+  return (
     // 1. Aumentei o mt-24 para mt-32 para dar mais respiro do menu
     <div className="min-h-screen mt-32 mb-16">
-      
+
       {/* 2. Mudei max-w-4xl para max-w-6xl (FICOU MAIS LARGO) */}
       <div className="px-6 lg:px-12 max-w-6xl mx-auto">
-        
+
         <div className="mb-8">
-            <Link href="/noticias" className="inline-block">
-                <button className="group flex items-center gap-2 px-6 py-2 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 hover:shadow-lg transition-all duration-300 mt-8">
-                <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
-                <span>Voltar para notícias</span>
-                </button>
-            </Link>
+          <Link
+            href="/noticias"
+            className="group inline-flex items-center gap-2 px-6 py-2 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 hover:shadow-lg transition-all duration-300 mt-8"
+          >
+            <ChevronLeft size={20} aria-hidden="true" className="group-hover:-translate-x-1 transition-transform" />
+            <span>Voltar para notícias</span>
+          </Link>
         </div>
 
         <article>
           {/* CABEÇALHO */}
           <header className="mb-10 text-center max-w-4xl mx-auto">
-             {/* Metadados acima do título */}
-             <div className="flex items-center justify-center gap-3 text-sm text-gray-500 mb-4 font-medium uppercase tracking-wider">
+            {/* Metadados acima do título */}
+            <div className="flex items-center justify-center gap-3 text-sm text-gray-500 mb-4 font-medium uppercase tracking-wider">
               {post._createdAt && (
                 <time dateTime={post._createdAt}>
                   {new Date(post._createdAt).toLocaleDateString('pt-BR', {
@@ -146,7 +148,7 @@ return (
                   priority
                   // 4. object-contain: Mostra a foto inteira (Zé Rafael inteiro) sem cortar,
                   // mas respeitando a altura máxima de 600px.
-                  className="w-auto h-auto max-h-[600px] object-contain" 
+                  className="w-auto h-auto max-h-[600px] object-contain"
                 />
               </div>
               {post.mainImage?.alt && (
@@ -160,9 +162,9 @@ return (
           {/* LINK EXTERNO */}
           {post.link && (
             <div className="max-w-4xl mx-auto mb-16">
-              <a 
-                href={post.link} 
-                target="_blank" 
+              <a
+                href={post.link}
+                target="_blank"
                 rel="noopener noreferrer"
                 className="group flex items-center justify-between p-4 bg-blue-50 border border-blue-100 rounded-xl hover:bg-blue-100 transition-colors"
               >
@@ -182,15 +184,15 @@ return (
           {/* 5. Centralizamos o texto em max-w-4xl para facilitar a leitura, 
                  mesmo que a imagem possa ser mais larga */}
           <div className="prose prose-lg md:prose-xl max-w-4xl mx-auto text-gray-800 prose-headings:text-gray-900 prose-a:text-green-600 hover:prose-a:text-green-700 prose-img:rounded-xl mt-8 mb-16">
-            <PortableText 
-              value={post.content} 
+            <PortableText
+              value={post.content}
               components={{
                 types: {
                   image: ({ value }: any) => (
-                    <img 
-                      src={urlFor(value).url()} 
-                      alt={value.alt} 
-                      className="w-full h-auto rounded-xl my-8 shadow-md" 
+                    <img
+                      src={urlFor(value).url()}
+                      alt={value.alt}
+                      className="w-full h-auto rounded-xl my-8 shadow-md"
                     />
                   ),
                 }
