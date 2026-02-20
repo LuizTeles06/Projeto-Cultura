@@ -27,11 +27,12 @@ export default function Historia() {
       <Hero />
 
       <div className="px-6 lg:px-12 py-8">
-        <Link href="/">
-          <button className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition flex items-center gap-2 mb-8">
-            <ChevronLeft size={20} />
-            Voltar
-          </button>
+        <Link
+          href="/"
+          className="group inline-flex items-center gap-2 px-6 py-2 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 hover:shadow-lg transition-all duration-300 mb-8"
+        >
+          <ChevronLeft size={20} aria-hidden="true" className="group-hover:-translate-x-1 transition-transform" />
+          <span>Voltar</span>
         </Link>
 
         {/* Nossa história */}

@@ -28,7 +28,7 @@ export default function CardNoticia({ id, slug, titulo, descricao, imagem, cover
 
   return (
     <Link href={href}>
-      <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer h-full border-2 border-transparent hover:border-green-500">
+      <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer h-full border-2 border-transparent hover:border-green-500">
         <div className="relative w-full h-48">
           <Image
             src={imagemExibida}

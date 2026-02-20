@@ -2,49 +2,52 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronLeft } from 'lucide-react';
-import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
 
 // Imports do Sanity
 import { client } from '@/sanity/lib/client';
 import { urlFor } from '@/sanity/lib/image';
 import { PortableText } from '@portabletext/react';
 
-// --- 1. DADOS MOCKADOS (REDUZIDOS PARA 2) ---
-const noticiasMock = [
-  {
-    slug: 'copinha-2026-tudo-sobre',
-    title: 'Copinha 2026 (MOCK)',
-    descricao: 'Tudo o que você precisa saber sobre a Copa São Paulo.',
-    conteudo: 'Conteúdo estático de teste para quando não houver internet ou dados.',
-    imagem: 'https://images.unsplash.com/photo-1606925797300-0b35e9d1794e?w=1200&h=400&fit=crop',
-    dataPublicacao: '2026-01-20',
-    autor: 'Redação Cultura Esportiva',
-    isMock: true // Flag para identificar
-  },
-  {
-    slug: 'brasileirao-previsoes',
-    title: 'Brasileirão 2026 (MOCK)',
-    descricao: 'As principais previsões para o campeonato brasileiro.',
-    conteudo: 'Texto de exemplo do mock.',
-    imagem: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1200&h=400&fit=crop',
-    dataPublicacao: '2026-01-19',
-    autor: 'Redação Cultura Esportiva',
-    isMock: true
-  },
-];
-
-// --- 2. FUNÇÃO PARA BUSCAR NO SANITY ---
+// --- FUNÇÃO PARA BUSCAR NO SANITY ---
 async function getSanityPost(slug: string) {
   const query = `*[_type == "post" && slug.current == $slug][0] {
     title,
     "descricao": Linha, 
     content,
     mainImage,
+    coverImage,
     link,
+    categoria,
     _createdAt
   }`;
 
   return client.fetch(query, { slug });
+}
+
+// --- SEO DINÂMICO ---
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await getSanityPost(slug);
+
+  if (!post) {
+    return {
+      title: 'Notícia não encontrada - Cultura Esportiva',
+    };
+  }
+
+  return {
+    title: `${post.title} - Cultura Esportiva`,
+    description: post.descricao || 'Notícia do Cultura Esportiva - A Voz do Esporte Sorocabano',
+    openGraph: {
+      title: post.title,
+      description: post.descricao || 'Notícia do Cultura Esportiva',
+      type: 'article',
+      ...(post.coverImage && {
+        images: [{ url: urlFor(post.coverImage).width(1200).height(630).url() }],
+      }),
+    },
+  };
 }
 
 // --- 3. COMPONENTE DA PÁGINA (SERVER COMPONENT) ---
@@ -52,16 +55,10 @@ export default async function NoticiaPage({ params }: { params: Promise<{ slug: 
   // No Next.js 15, params é uma Promise
   const { slug } = await params;
 
-  // 1º Tentativa: Buscar no Sanity
-  const sanityPost = await getSanityPost(slug);
+  // Buscar no Sanity
+  const post = await getSanityPost(slug);
 
-  // 2º Tentativa: Buscar no Mock
-  const mockPost = noticiasMock.find((n) => n.slug === slug);
-
-  // Decidir qual usar (Prioridade: Sanity > Mock)
-  const post = sanityPost || mockPost;
-
-  // Se não achar em nenhum lugar, 404
+  // Se não encontrar, 404
   if (!post) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center mt-16">
@@ -77,14 +74,7 @@ export default async function NoticiaPage({ params }: { params: Promise<{ slug: 
     );
   }
 
-  // Normalização de dados para renderizar (pois o formato do Sanity e do Mock são diferentes)
-  const isSanity = !!sanityPost;
-
-  const titulo = isSanity ? post.title : post.title;
-  const descricao = isSanity ? post.descricao : post.descricao;
-  const data = isSanity ? post._createdAt : post.dataPublicacao;
-  const imagemUrl = isSanity && post.mainImage ? urlFor(post.mainImage).url() : post.imagem;
-  const autor = isSanity ? "Redação" : post.autor; // Sanity não tem campo autor ainda, usei fixo
+  const imagemUrl = post.mainImage ? urlFor(post.mainImage).url() : null;
 
   return (
     // 1. Aumentei o mt-24 para mt-32 para dar mais respiro do menu
