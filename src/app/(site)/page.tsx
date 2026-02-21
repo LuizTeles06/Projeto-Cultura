@@ -4,6 +4,8 @@ import Hero from '@/components/Hero';
 import HomeContent from '@/components/HomeContent';
 import { client } from '@/sanity/lib/client';
 
+export const revalidate = 0;
+
 async function getLatestPosts() {
   // 15 posts mais recentes
   const query = `*[_type == "post"] | order(_createdAt desc)[0...15] {
