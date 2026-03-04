@@ -111,8 +111,8 @@ export default function NewsContent({ sanityPosts }: NoticiasContentProps) {
             key={cat.value}
             onClick={() => setCategoriaAtiva(cat.value)}
             className={`px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 cursor-pointer ${categoriaAtiva === cat.value
-                ? cat.color + ' shadow-md scale-105'
-                : cat.colorInactive
+              ? cat.color + ' shadow-md scale-105'
+              : cat.colorInactive
               }`}
           >
             {cat.label}
@@ -120,7 +120,7 @@ export default function NewsContent({ sanityPosts }: NoticiasContentProps) {
         ))}
       </div>
 
-      <h3 className="text-2xl font-bold mb-6">
+      <h3 className="text-2xl font-bold mb-6 text-gray-900">
         {categoriaAtiva === 'todas'
           ? 'Últimas notícias'
           : `Notícias de ${categoriasFiltro.find(c => c.value === categoriaAtiva)?.label || ''}`
