@@ -146,7 +146,7 @@ export default function NewsContent({ sanityPosts }: NoticiasContentProps) {
 
       {noticiasFiltradas.length === 0 && (
         <p className="text-center text-gray-600 py-12">
-          Nenhuma notícia encontrada para "{busca}"
+          Nenhuma notícia encontrada
         </p>
       )}
     </div>
