@@ -42,7 +42,7 @@ export default async function Home() {
             />
             <div className="flex-1">
               <h2 className="text-3xl font-bold mb-4 text-gray-900">
-                Fique por dentro do melhor do mundo do esporte
+                Todas as informações sobre os esportes de Sorocaba e região, você acompanha aqui!
               </h2>
               <p className="text-gray-600">
                 Acompanhe notícias exclusivas, resultados e análises profundas.

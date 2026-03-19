@@ -11,8 +11,8 @@ const videos = [
   },
   {
     id: 2,
-    titulo: 'Entrevista com Maldonado - Campeão Brasileiro de Boxe e que lutou no UFC',
-    videoId: 'Kcv0SWBsDEM',
+    titulo: 'BASTIDORES DO EVENTO: PARANÁ - SESI SOROCABA',
+    videoId: '4v_O73l3ZlQ',
   },
   {
     id: 3,
@@ -148,13 +148,31 @@ export default function Historia() {
             <div className="rounded-lg shadow overflow-hidden hover:shadow-xl transition">
               <img src="/evento2.jpg" alt="Equipe em cobertura" className="w-full h-48 object-cover" />
               <div className="p-4 text-center">
-                <h4 className="font-bold text-gray-900">Jogo das Estrelas</h4>
+                <h4 className="font-bold text-gray-900">Entrevista com o Rei Falcão</h4>
               </div>
             </div>
             <div className="rounded-lg shadow overflow-hidden hover:shadow-xl transition">
-              <img src="/evento3.jpg" alt="Entrevista" className="w-full h-48 object-cover" />
+              <img src="/evento3.jpeg" alt="Entrevista" className="w-full h-48 object-cover" />
               <div className="p-4 text-center">
-                <h4 className="font-bold text-gray-900">Jogo dos Famosos</h4>
+                <h4 className="font-bold text-gray-900">Cultura Esportiva na Rádio (RCL)</h4>
+              </div>
+            </div>
+            <div className="rounded-lg shadow overflow-hidden hover:shadow-xl transition">
+              <img src="/evento4.jpeg" alt="Entrevista" className="w-full h-48 object-cover" />
+              <div className="p-4 text-center">
+                <h4 className="font-bold text-gray-900">Copa Votorantim sub-15</h4>
+              </div>
+            </div>
+            <div className="rounded-lg shadow overflow-hidden hover:shadow-xl transition">
+              <img src="/evento5.jpeg" alt="Entrevista" className="w-full h-48 object-cover" />
+              <div className="p-4 text-center">
+                <h4 className="font-bold text-gray-900">Evento - 10 anos Ginásio Paraná</h4>
+              </div>
+            </div>
+            <div className="rounded-lg shadow overflow-hidden hover:shadow-xl transition">
+              <img src="/evento6.jpeg" alt="Entrevista" className="w-full h-48 object-cover" />
+              <div className="p-4 text-center">
+                <h4 className="font-bold text-gray-900">Inauguração Arena Studio A</h4>
               </div>
             </div>
           </div>
