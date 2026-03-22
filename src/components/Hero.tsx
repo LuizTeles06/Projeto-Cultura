@@ -5,9 +5,9 @@ import Image from 'next/image';
 
 export default function Hero() {
   return (
-    <section className="relative h-[400px] lg:h-[500px] mt-16 w-full overflow-hidden">
+    <section className="relative h-[400px] lg:h-[550px] mt-16 w-full overflow-hidden">
       <Image
-        src="/hero-bg.jpg"
+        src="/img-main.png"
         alt="Esportes em Sorocaba"
         fill
         priority
