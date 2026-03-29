@@ -62,6 +62,12 @@ export const post = defineType({
       options: { hotspot: true },
     }),
     defineField({
+      name: 'legenda',
+      title: 'Legenda da Imagem',
+      type: 'string',
+      description: 'Legenda exibida abaixo da imagem secundária',
+    }),
+    defineField({
       name: 'link',
       title: 'Link Externo',
       type: 'url', 

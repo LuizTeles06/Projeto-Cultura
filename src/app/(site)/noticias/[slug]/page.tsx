@@ -17,6 +17,7 @@ async function getSanityPost(slug: string) {
     content,
     mainImage,
     coverImage,
+    legenda,
     link,
     categoria,
     _createdAt
@@ -143,9 +144,9 @@ export default async function NoticiaPage({ params }: { params: Promise<{ slug: 
                   className="w-auto h-auto max-h-[600px] object-contain"
                 />
               </div>
-              {post.mainImage?.alt && (
-                <figcaption className="text-sm text-gray-500 mt-3 italic">
-                  {post.mainImage.alt}
+              {(post.legenda || post.mainImage?.alt) && (
+                <figcaption className="text-sm text-gray-500 mt-3 italic text-center">
+                  {post.legenda || post.mainImage?.alt}
                 </figcaption>
               )}
             </figure>
