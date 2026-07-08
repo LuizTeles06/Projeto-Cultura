@@ -4,7 +4,7 @@ import Hero from '@/components/Hero';
 import HomeContent from '@/components/HomeContent';
 import { client } from '@/sanity/lib/client';
 
-export const revalidate = 0;
+export const revalidate = 60;
 
 async function getLatestPosts() {
   // 15 posts mais recentes

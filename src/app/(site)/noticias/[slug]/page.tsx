@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { notFound } from 'next/navigation';
 import { ChevronLeft } from 'lucide-react';
 import type { Metadata } from 'next';
 
@@ -26,7 +27,7 @@ async function getSanityPost(slug: string) {
   return client.fetch(query, { slug });
 }
 
-export const revalidate = 0;
+export const revalidate = 60;
 
 // --- SEO DINÂMICO ---
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -61,20 +62,9 @@ export default async function NoticiaPage({ params }: { params: Promise<{ slug: 
   // Buscar no Sanity
   const post = await getSanityPost(slug);
 
-  // Se não encontrar, 404
+  // Se não encontrar, dispara o 404 real (HTTP 404 + renderiza not-found.tsx).
   if (!post) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center mt-16">
-        <h1 className="text-2xl font-bold text-gray-900 mb-4">Notícia não encontrada</h1>
-        <Link
-          href="/noticias"
-          className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 hover:shadow-lg transition-all duration-300 flex items-center gap-2 mt-12"
-        >
-          <ChevronLeft size={20} aria-hidden="true" />
-          Voltar para Notícias
-        </Link>
-      </div>
-    );
+    notFound();
   }
 
   const imagemUrl = post.mainImage ? urlFor(post.mainImage).url() : null;
