@@ -6,5 +6,7 @@ export const client = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: false, 
+  // CDN ativo: conteúdo público de leitura é servido pela edge cache do Sanity,
+  // reduzindo latência e chamadas diretas à API (resiliência e custo).
+  useCdn: true,
 })

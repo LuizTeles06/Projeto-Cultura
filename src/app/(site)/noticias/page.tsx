@@ -22,7 +22,7 @@ async function getPosts() {
   return await client.fetch(query);
 }
 
-export const revalidate = 0;
+export const revalidate = 60;
 
 export default async function NoticiasPage() {
   // Busca os dados antes de renderizar a página
