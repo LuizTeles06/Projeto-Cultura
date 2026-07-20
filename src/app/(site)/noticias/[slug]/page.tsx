@@ -71,7 +71,9 @@ export default async function NoticiaPage({ params }: { params: Promise<{ slug: 
 
   return (
     // 1. Aumentei o mt-24 para mt-32 para dar mais respiro do menu
-    <div className="min-h-screen mt-32 mb-16">
+    // 2. pb- (e não mb-) no fim: padding não sofre margin collapsing,
+    //    garantindo respiro real entre o fim do texto e o rodapé.
+    <div className="min-h-screen mt-32 pb-24">
 
       {/* 2. Mudei max-w-4xl para max-w-6xl (FICOU MAIS LARGO) */}
       <div className="px-6 lg:px-12 max-w-6xl mx-auto">
@@ -166,7 +168,7 @@ export default async function NoticiaPage({ params }: { params: Promise<{ slug: 
           {/* CONTEÚDO DO TEXTO */}
           {/* 5. Centralizamos o texto em max-w-4xl para facilitar a leitura, 
                  mesmo que a imagem possa ser mais larga */}
-          <div className="prose prose-lg md:prose-xl max-w-4xl mx-auto text-gray-800 prose-headings:text-gray-900 prose-a:text-green-600 hover:prose-a:text-green-700 prose-img:rounded-xl mt-8 mb-16">
+          <div className="prose prose-lg md:prose-xl max-w-4xl mx-auto text-gray-800 prose-headings:text-gray-900 prose-a:text-green-600 hover:prose-a:text-green-700 prose-img:rounded-xl mt-8">
             <PortableText
               value={post.content}
               components={{
